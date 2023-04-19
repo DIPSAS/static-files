@@ -16,7 +16,7 @@
             "required": [
                 "workflows"
             ],
-            "title": "Worflows elements"
+            "title": "Worflows objects"
         },
         "BuildTrigger.Workflow": {
             "type": "object",
@@ -24,11 +24,11 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Optional property. Recommended for describing the workflow."
+                    "description": "Optional. Recommended for describing the workflow."
                 },
                 "workflow": {
                     "type": "string",
-                    "description": "The workflow-file to start."
+                    "description": "Rrequired. The workflow-file to start."
                 },
                 "triggerRules": {
                     "$ref": "#/definitions/BuildTrigger.TriggerRules",
