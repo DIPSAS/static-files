@@ -10,7 +10,8 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/BuildTrigger.Workflow"
-                    }
+                    },
+                    "description": "Required. The build-trigger.yaml need a workflow..."
                 }
             },
             "required": [
@@ -28,7 +29,7 @@
                 },
                 "workflow": {
                     "type": "string",
-                    "description": "Rrequired. The workflow-file to start."
+                    "description": "Required. The workflow-file to start."
                 },
                 "triggerRules": {
                     "$ref": "#/definitions/BuildTrigger.TriggerRules",
