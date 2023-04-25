@@ -25,23 +25,19 @@
             "properties": {
                 "name": {
                     "type": "string",
-                    "description": "Optional. Recommended for describing the workflow.",
-                    "optional": true
+                    "description": "Optional. Recommended for describing the workflow."
                 },
                 "workflow": {
                     "type": "string",
-                    "description": "Required. The workflow-file to start.",
-                    "optional": false
+                    "description": "Required. The workflow-file to start."
                 },
                 "triggerRules": {
                     "$ref": "#/definitions/BuildTrigger.TriggerRules",
-                    "description": "Optional. Used to specify that the workflow should be triggered at check-in. If not specified, the workflow will not be trigged at all.",
-                    "optional": true
+                    "description": "Optional. Used to specify that the workflow should be triggered at check-in. If not specified, the workflow will not be trigged at all."
                 },
                 "branchFilter": {
                     "$ref": "#/definitions/BuildTrigger.BranchFilter",
-                    "description": "Optional. Not implemented yet. Planned use to specify the git-branch trigging sould react on. If not specified, the default branch will be used.",
-                    "optional": true
+                    "description": "Optional. Not implemented yet. Planned use to specify the git-branch trigging sould react on. If not specified, the default branch will be used."
                 }
             },
             "required": [
@@ -53,50 +49,46 @@
         "BuildTrigger.TriggerRules": {
             "type": "object",
             "additionalProperties": false,
-            "optional": true
             "properties": {
                 "includes": {
                     "type": "array",
                     "description": "Optional. Used to specify changes to be reacted to. If empty list or unspecfied, the workflow will be trigged by all changes.",
                     "items": {
                         "type": "string"
-                    },
-                    "optional": true
+                    }
                 },
                 "excludes": {
                     "type": "array",
                     "description": "Optional. Used to specify changes that should not be reacted to.",
                     "items": {
                         "type": "string"
-                    },
-                    "optional": true
+                    }
                 }
             },
+            "required": [ ],
             "title": "TriggerRules",
             "description": "Used to specify changes to be reacted to. If empty list, the workflow will be trigged by all changes."
         },
         "BuildTrigger.BranchFilter": {
             "type": "object",
             "additionalProperties": false,
-            "optional": true
             "properties": {
                 "includes": {
                     "type": "array",
                     "description": "Optional. Used to specify the git-branch to be reacted to. If empty list or unspecfied, the workflow will be trigged only by changes in default-branch.",
                     "items": {
                         "type": "string"
-                    },
-                    "optional": true
+                    }
                 },
                 "excludes": {
                     "type": "array",
                     "description": "Optional. Used to specify git-branch that should not be reacted to.",
                     "items": {
                         "type": "string"
-                    },
-                    "optional": true
+                    }
                 }
             },
+            "required": [ ],
             "title": "BranchFilter",
             "description": "Not implemented yet. Planned use is to specify git-branches to be reacted to. If empty list, the workflow will be trigged only by changes in default-branch."
         }
