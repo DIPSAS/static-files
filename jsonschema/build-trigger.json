@@ -34,6 +34,10 @@
                 "triggerRules": {
                     "$ref": "#/definitions/BuildTrigger.TriggerRules",
                     "description": "Optional. Used to specify that the workflow should be triggered at check-in. If not specified, the workflow will not be trigged at all."
+                },
+                "branchFilter": {
+                    "$ref": "#/definitions/BuildTrigger.BranchFilter",
+                    "description": "Optional. Not implemented yet. Planned use to specify the git-branch trigging sould react on. If not specified, the default branch will be used."
                 }
             },
             "required": [
@@ -63,6 +67,29 @@
             },
             "title": "TriggerRules",
             "description": "Used to specify changes to be reacted to. If empty list, the workflow will be trigged by all changes."
+        },
+        "BuildTrigger.BranchFilter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "includes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify the git-branch to be reacted to. If empty list or unspecfied, the workflow will be trigged only by changes in default-branch.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "excludes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify git-branch that should not be reacted to.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "title": "BranchFilter",
+            "description": "Not implemented yet. Planned use is to specify git-branches to be reacted to. If empty list, the workflow will be trigged only by changes in default-branch."
         }
+        
     }
 }
