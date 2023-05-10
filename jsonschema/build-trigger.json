@@ -1,5 +1,6 @@
 {
-    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/build-trigger.json",
+    "$schema": "http://json-schema.org/draft-06/schema#", 
     "$ref": "#/definitions/BuildTrigger.WorflowsElements",
     "definitions": {
         "BuildTrigger.WorflowsElements": {
