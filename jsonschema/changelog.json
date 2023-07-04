@@ -1,0 +1,264 @@
+{
+    "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/changelog.json",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Changelog.Versions",
+    "definitions": {
+        "Changelog.Versions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "versions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Changelog.Version"
+                    },
+                    "description": "Required. The changelog.yaml need a version..."
+                }
+            },
+            "required": [
+                "versions"
+            ],
+            "title": "A array of changelog-versions with items of ['version' , ('artifacthub.io/changes' and/or 'changes') properties]"
+        },
+        "Changelog.Version": {
+            "type": "object",
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "description": "Required. The version in format 'Major.Minor.Patch' or 'Major.Minor'"
+                },
+                "artifacthub.io/changes": {
+                    "$ref": "#/definitions/Changelog.ArtifactHubChanges",
+                    "description": "Optional. Used to specify the changelog following the 'artifacthub.io/changes' spec in https://artifacthub.io/docs/topics/annotations/helm/"
+                },
+                "changes": {
+                    "$ref": "#/definitions/Changelog.DipsChanges",
+                    "description": "Optional. Used to specify the changelog with a array of items with [required ('description' or 'descriptions') and/or optional 'links' properties"
+                }
+            },
+            "required": [
+                "version"
+            ],
+            "anyOf": [
+                {
+                    "required": [
+                        "artifacthub.io/changes"
+                    ]
+                },
+                {
+                    "required": [
+                        "changes"
+                    ]
+                }
+            ],
+            "additionalProperties": false,
+            "title": "Version",
+            "description": "Version-item with required 'version' property and (required 'artifacthub.io/changes' or 'changes' or both) properties "
+        },
+        "Changelog.ArtifactHubChanges": {
+            "required": [],
+            "anyOf": [
+                {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Changelog.ArtifactHubChangesObject"
+                    },
+                    "title": "artifacthub.io/changes as array of strings or array of objects"
+                },
+                {
+                    "type": "string",
+                    "title": "artifacthub.io/changes as a string"
+                }
+            ]
+        },
+        "Changelog.ArtifactHubChangesObject": {
+            "type": [
+                "object",
+                "string"
+            ],
+            "title": "artifacthub.io/changes as object of (required ['kind' and 'description'] and/or optional 'link' properties) or string",
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": {
+                            "$ref": "#/definitions/Changelog.Kind",
+                            "description": "Required. The changelog kind"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Required. The changelog description"
+                        },
+                        "links": {
+                            "type": "array",
+                            "description": "Optional. The changelog links",
+                            "items": {
+                                "$ref": "#/definitions/Changelog.Links"
+                            }
+                        }
+                    },
+                    "required": [
+                        "kind",
+                        "description"
+                    ],
+                    "additionalProperties": false,
+                    "title": "artifacthub.io/changes as object with required ['description' and 'kind'] and/or optional 'links' properties"
+                },
+                {
+                    "type": "string",
+                    "title": "artifacthub.io/changes as string"
+                }
+            ]
+        },
+        "Changelog.DipsChanges": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Changelog.DipsChange"
+            },
+            "title": "DipsChanges"
+        },
+        "Changelog.DipsChange": {
+            "type": [
+                "object",
+                "string"
+            ],
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": {
+                            "$ref": "#/definitions/Changelog.Kind",
+                            "description": "Optional. The changelog kind. If not specified, it defaults to 'added'",
+                            "default": "added"
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Optional. The changelog description string"
+                        },
+                        "descriptions": {
+                            "type": "array",
+                            "description": "Optional. The changelog descriptions with a array of 'string' or a array of ('kind', 'links' properties and 'description' or another 'descriptions' property)",
+                            "items": {
+                                "$ref": "#/definitions/Changelog.DipsChangesDescriptions"
+                            }
+                        },
+                        "links": {
+                            "type": "array",
+                            "description": "Optional. The changelog links",
+                            "items": {
+                                "$ref": "#/definitions/Changelog.Links"
+                            }
+                        }
+                    },
+                    "oneOf": [
+                        {
+                            "required": [
+                                "description"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "descriptions"
+                            ]
+                        }
+                    ],
+                    "title": "Used to specify the changelog with [required ('description' or 'descriptions') and/or optional 'kinds' and/or 'links' properties",
+                    "additionalProperties": false
+                },
+                {
+                    "type": "string",
+                    "title": "Used to specify the changelog by a string"
+
+                }
+            ],
+            "title": "Used to specify the changelog by a string or by a item of [required ('description' or 'descriptions') and/or optional 'links' properties"
+        },
+        "Changelog.Links": {
+            "type": "object",
+            "additionalProperties": false,
+            "title": "Link with required 'name' and 'url'",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "The name of the link"
+                },
+                "url": {
+                    "type": "string",
+                    "description": "The Url of the link"
+                }
+            },
+            "required": [
+                "name",
+                "url"
+            ]
+        },
+        "Changelog.DipsChangesDescriptions": {
+            "type": [
+                "object",
+                "string"
+            ],
+            "title": "artifacthub.io/changes as object or string",
+            "anyOf": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "kind": {
+                            "$ref": "#/definitions/Changelog.Kind",
+                            "description": "Optional. The changelog kind. If not specified, it defaults to the kind of parent object."
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "Optional. The changelog description"
+                        },
+                        "descriptions": {
+                            "type": [
+                                "array",
+                                "object"
+                            ],
+                            "description": "Optional. The changelog descriptions",
+                            "items": {
+                                "$ref": "#/definitions/Changelog.DipsChangesDescriptions"
+                            }
+                        },
+                        "links": {
+                            "type": "array",
+                            "description": "Optional. The changelog links",
+                            "items": {
+                                "$ref": "#/definitions/Changelog.Links"
+                            }
+                        }
+                    },
+                    "additionalProperties": false,
+                    "oneOf": [
+                        {
+                            "required": [
+                                "description"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "descriptions"
+                            ]
+                        }
+                    ],
+                    "title": "artifacthub.io/changes with (optional 'kind', 'links' properties and required ('description' or 'descriptions') property)"
+                },
+                {
+                    "type": "string",
+                    "title": "artifacthub.io/changes as a string. The kind will be the kind of the parent object."
+                }
+            ]
+        },
+        "Changelog.Kind": {
+            "enum": [
+                "added",
+                "changed",
+                "deprecated",
+                "removed",
+                "fixed",
+                "security"
+            ],
+            "title": "The changlog kind. Supported kinds are ['added', 'changed', 'deprecated', 'removed', 'fixed' or 'security']"
+        }
+    }
+}
