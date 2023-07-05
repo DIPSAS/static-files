@@ -1,0 +1,307 @@
+{
+    "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/dips-catalog-info.json",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "title": "Catalog Info Dips",
+    "anyOf": [
+        {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "DipsSystemV1alpha1",
+            "description": "A system is a collection of resources and components. The system may expose or consume one or several APIs. It is viewed as abstraction level that provides potential consumers insights into exposed features without needing a too detailed view into the details of all components. This also gives the owning team the possibility to decide about published artifacts and APIs.",
+            "examples": [
+                {
+                    "apiVersion": "docs.dips.no/v1alpha1",
+                    "kind": "System",
+                    "metadata": {
+                        "name": "artist-engagement-portal",
+                        "description": "Handy tools to keep artists in the loop"
+                    },
+                    "spec": {
+                        "owner": "artist-relations-team",
+                        "domain": "artists"
+                    }
+                }
+            ],
+            "allOf": [
+                {
+                    "$ref": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/catalog-info.json#/definitions/entity"
+                },
+                {
+                    "type": "object",
+                    "required": [
+                        "spec"
+                    ],
+                    "properties": {
+                        "apiVersion": {
+                            "enum": [
+                                "docs.dips.no/v1alpha1",
+                                "docs.dips.no/v1beta1",
+                                "backstage.io/v1alpha1",
+                                "backstage.io/v1beta1"
+                            ]
+                        },
+                        "kind": {
+                            "enum": [
+                                "System",
+                                "DipsSystem"
+                            ]
+                        },
+                        "spec": {
+                            "type": "object",
+                            "required": [
+                                "owner"
+                            ],
+                            "properties": {
+                                "owner": {
+                                    "type": "string",
+                                    "description": "An entity reference to the owner of the component.",
+                                    "examples": [
+                                        "artist-relations-team",
+                                        "user:john.johnson"
+                                    ],
+                                    "minLength": 1
+                                },
+                                "domain": {
+                                    "type": "string",
+                                    "description": "An entity reference to the domain that the system belongs to.",
+                                    "examples": [
+                                        "artists"
+                                    ],
+                                    "minLength": 1
+                                }
+                            },
+                            "examples": [
+                                {
+                                    "owner": "team-smoothoperators",
+                                    "domain": "IAM"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "definitions": {
+        "entity": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "$id": "Entity",
+            "description": "The parts of the format that's common to all versions/kinds of entity.",
+            "examples": [
+                {
+                    "apiVersion": "docs.dips.no/v1alpha1",
+                    "kind": "DipsSystem",
+                    "metadata": {
+                        "name": "keycloak",
+                        "title": "Keycloak",
+                        "annotations": {
+                            "docs.dips.no/docs-ref": "dir:docs/keycloak",
+                            "docs.dips.no/location": "k8s"
+                        }
+                    },
+                    "spec": {
+                        "domain": "IAM",
+                        "owner": "team-smoothoperators"
+                    }
+                }
+            ],
+            "type": "object",
+            "required": [
+                "apiVersion",
+                "kind",
+                "metadata",
+                "spec"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "apiVersion": {
+                    "type": "string",
+                    "description": "The version of specification format for this particular entity that this is written against.",
+                    "minLength": 1,
+                    "examples": [
+                        "docs.dips.no/v1alpha1"
+                    ]
+                },
+                "kind": {
+                    "type": "string",
+                    "description": "The high level entity type being described.",
+                    "minLength": 1,
+                    "examples": [
+                        "System",
+                        "DipsSystem"
+                    ]
+                },
+                "metadata": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "$id": "EntityMeta",
+                    "description": "Metadata fields common to all versions/kinds of entity.",
+                    "examples": [
+                        {
+                            "uid": "e01199ab-08cc-44c2-8e19-5c29ded82521",
+                            "etag": "lsndfkjsndfkjnsdfkjnsd==",
+                            "generation": 13,
+                            "name": "my-component-yay",
+                            "namespace": "the-namespace",
+                            "labels": {
+                                "docs.dips.no/custom": "ValueStuff"
+                            },
+                            "annotations": {
+                                "example.com/bindings": "are-secret"
+                            },
+                            "tags": [
+                                "java",
+                                "data"
+                            ]
+                        }
+                    ],
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "annotations"
+                    ],
+                    "additionalProperties": true,
+                    "properties": {
+                        "uid": {
+                            "type": "string",
+                            "description": "A globally unique ID for the entity. This field can not be set by the user at creation time, and the server will reject an attempt to do so. The field will be populated in read operations. The field can (optionally) be specified when performing update or delete operations, but the server is free to reject requests that do so in such a way that it breaks semantics.",
+                            "examples": [
+                                "e01199ab-08cc-44c2-8e19-5c29ded82521"
+                            ],
+                            "minLength": 1
+                        },
+                        "etag": {
+                            "type": "string",
+                            "description": "An opaque string that changes for each update operation to any part of the entity, including metadata. This field can not be set by the user at creation time, and the server will reject an attempt to do so. The field will be populated in read operations. The field can (optionally) be specified when performing update or delete operations, and the server will then reject the operation if it does not match the current stored value.",
+                            "examples": [
+                                "lsndfkjsndfkjnsdfkjnsd=="
+                            ],
+                            "minLength": 1
+                        },
+                        "generation": {
+                            "type": "integer",
+                            "description": "A positive nonzero number that indicates the current generation of data for this entity; the value is incremented each time the spec changes. This field can not be set by the user at creation time, and the server will reject an attempt to do so. The field will be populated in read operations.",
+                            "examples": [
+                                1
+                            ],
+                            "minimum": 1
+                        },
+                        "name": {
+                            "type": "string",
+                            "description": "The name of the entity. Must be unique within the catalog at any given point in time, for any given namespace + kind pair.",
+                            "examples": [
+                                "metadata-proxy"
+                            ],
+                            "minLength": 1
+                        },
+                        "namespace": {
+                            "type": "string",
+                            "description": "The namespace that the entity belongs to.",
+                            "default": "default",
+                            "examples": [
+                                "default",
+                                "admin"
+                            ],
+                            "minLength": 1
+                        },
+                        "title": {
+                            "type": "string",
+                            "description": "A display name of the entity, to be presented in user interfaces instead of the name property, when available.",
+                            "examples": [
+                                "React SSR Template"
+                            ],
+                            "minLength": 1
+                        },
+                        "description": {
+                            "type": "string",
+                            "description": "A short (typically relatively few words, on one line) description of the entity."
+                        },
+                        "labels": {
+                            "type": "object",
+                            "description": "Key/value pairs of identifying information attached to the entity.",
+                            "additionalProperties": true,
+                            "patternProperties": {
+                                "^.+$": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "annotations": {
+                            "type": "object",
+                            "description": "Key/value pairs of non-identifying auxiliary information attached to the entity.",
+                            "additionalProperties": true,
+                            "patternProperties": {
+                                "^.+$": {
+                                    "type": "string"
+                                }
+                            },
+                            "examples": [
+                                {
+                                    "docs.dips.no/docs-ref": "dir:docs/product",
+                                    "docs.dips.no/location": "k8s"
+                                }
+                            ]
+                        },
+                        "tags": {
+                            "type": "array",
+                            "description": "A list of single-valued strings, to for example classify catalog entities in various ways.",
+                            "items": {
+                                "type": "string",
+                                "minLength": 1
+                            }
+                        },
+                        "links": {
+                            "type": "array",
+                            "description": "A list of external hyperlinks related to the entity. Links can provide additional contextual information that may be located outside of Backstage itself. For example, an admin dashboard or external CMS page.",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "url"
+                                ],
+                                "properties": {
+                                    "url": {
+                                        "type": "string",
+                                        "description": "A url in a standard uri format.",
+                                        "examples": [
+                                            "https://admin.example-org.com"
+                                        ],
+                                        "minLength": 1
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "description": "A user friendly display name for the link.",
+                                        "examples": [
+                                            "Admin Dashboard"
+                                        ],
+                                        "minLength": 1
+                                    },
+                                    "icon": {
+                                        "type": "string",
+                                        "description": "A key representing a visual icon to be displayed in the UI.",
+                                        "examples": [
+                                            "dashboard"
+                                        ],
+                                        "minLength": 1
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "spec": {
+                    "type": "object",
+                    "description": "The specification data describing the entity itself."
+                },
+                "relations": {
+                    "type": "array",
+                    "description": "The relations that this entity has with other entities.",
+                    "items": {
+                        "$ref": "https://json.schemastore.org/catalog-info.json#/definitions/common/definitions/relation"
+                    }
+                },
+                "status": {
+                    "$ref": "https://json.schemastore.org/catalog-info.json#/definitions/common/definitions/status"
+                }
+            }
+        }
+    },
+    "type": "object"
+}
