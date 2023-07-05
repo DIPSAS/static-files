@@ -2,7 +2,7 @@
     "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/catalog-info.json",
     "$schema": "http://json-schema.org/draft-06/schema#",
     "title": "Catalog Info Backstage/Dips",
-    "allOf": [
+    "anyOf": [
         {
             "$ref": "https://json.schemastore.org/catalog-info.json"
         },
