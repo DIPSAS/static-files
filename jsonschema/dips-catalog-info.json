@@ -1,7 +1,6 @@
 {
     "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/dips-catalog-info.json",
     "$schema": "http://json-schema.org/draft-06/schema#",
-    "title": "Catalog Info Dips",
     "anyOf": [
         {
             "$schema": "http://json-schema.org/draft-07/schema#",
@@ -23,7 +22,7 @@
             ],
             "allOf": [
                 {
-                    "$ref": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/catalog-info.json#/definitions/entity"
+                    "$ref": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/dips-catalog-info.json#/definitions/entity"
                 },
                 {
                     "type": "object",
