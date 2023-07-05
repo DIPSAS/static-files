@@ -2,6 +2,8 @@
     "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/changelog.json",
     "$schema": "http://json-schema.org/draft-06/schema#",
     "$ref": "#/definitions/Changelog.Versions",
+    "title": "Dips Changelog",
+    "description": "Dips Changelog",
     "definitions": {
         "Changelog.Versions": {
             "type": "object",

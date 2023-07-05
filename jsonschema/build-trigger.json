@@ -2,6 +2,8 @@
     "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/build-trigger.json",
     "$schema": "http://json-schema.org/draft-06/schema#", 
     "$ref": "#/definitions/BuildTrigger.WorflowsElements",
+    "title": "Dips BuildTrigger",
+    "description": "Dips BuildTrigger",
     "definitions": {
         "BuildTrigger.WorflowsElements": {
             "type": "object",
