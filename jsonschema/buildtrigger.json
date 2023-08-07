@@ -1,0 +1,172 @@
+{
+    "$id": "https://raw.githubusercontent.com/DIPSAS/static-files/main/jsonschema/buildtrigger.json",
+    "$schema": "http://json-schema.org/draft-06/schema#", 
+    "$ref": "#/definitions/BuildTrigger.Workflow",
+    "title": "Dips Workflow BuildTrigger",
+    "description": "Dips Workflow BuildTrigger",
+    "definitions": {
+        "BuildTrigger.Workflow": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "apiVersion": {
+                    "type": "string",
+                    "minLength": 1,
+                    "examples": [
+                        "workflow.dipsas.io/v1alpha1"
+                    ]
+                },
+                "kind": {
+                    "type": "string",
+                    "description": "The BuildTrigger type being described.",
+                    "minLength": 1,
+                    "examples": [
+                        "BuildTrigger"
+                    ]
+                },
+                "metadata": {
+                    "$schema": "http://json-schema.org/draft-07/schema#",
+                    "$id": "BuildTrigger",
+                    "description": "Metadata for the workflow.",
+                    "type": "object",
+                    "required": [
+                        "name",
+                        "namespace"
+                    ],
+                    "additionalProperties": true,
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "description": "The name of the workflow. Must be unique in the namespace.",
+                            "examples": [
+                                "metadata-proxy"
+                            ],
+                            "minLength": 1
+                        },
+                        "namespace": {
+                            "type": "string",
+                            "description": "The namespace that the workflow belongs to.",
+                            "default": "default",
+                            "examples": [
+                                "default",
+                                "admin"
+                            ],
+                            "minLength": 1
+                        }
+                    }
+                },
+
+                "spec": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "spec": {
+                            "type": "object",
+                            "additionalProperties": false
+                        },    
+                        "name": {
+                            "type": "string",
+                            "description": "Optional. Recommended for describing the workflow."
+                        },
+                        "repository": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "description": "Required. The repository workflow belongs to.",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "description": "Required. The repository name workflow belongs to."
+                                },
+                                "project": {
+                                    "type": "string",
+                                    "description": "Optional. The repository project workflow belongs to. Defaults to 'dips'"
+                                },                                
+                                "organization": {
+                                    "type": "string",
+                                    "description": "Optional. The repository organization workflow belongs to. Defaults to 'DIPS'"
+                                },
+                                "url": {
+                                    "description": "Optional. The full repository-url workflow belongs to. Defaults to 'https://dev.azure.com/{project}/{organization}/_git/{name}'",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "workflow": {
+                            "type": "string",
+                            "description": "Required. The workflow-file to start."
+                        },
+                        "triggerRules": {
+                            "$ref": "#/definitions/BuildTrigger.TriggerRules",
+                            "description": "Optional. Used to specify that the workflow should be triggered at check-in. If not specified, the workflow will not be trigged at all."
+                        },
+                        "branchFilter": {
+                            "$ref": "#/definitions/BuildTrigger.BranchFilter",
+                            "description": "Optional. Not implemented yet. Planned use to specify the git-branch trigging sould react on. If not specified, the default branch will be used."
+                        }
+                    },
+                    "required": [
+                        "workflow",
+                        "repository"
+                    ],
+                    "title": "Workflow",
+                    "description": "Workflow object"
+                }
+            },
+            "required": [
+                "apiVersion",
+                "kind",
+                "metadata",
+                "spec"
+            ],
+            "title": "Workflow buildtrigger",
+            "description": "Workflow buildtrigger"
+        },
+        "BuildTrigger.TriggerRules": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "includes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify changes to be reacted to. If empty list or unspecfied, the workflow will be trigged by all changes.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "excludes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify changes that should not be reacted to.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [ ],
+            "title": "TriggerRules",
+            "description": "Used to specify changes to be reacted to. If empty list, the workflow will be trigged by all changes."
+        },
+        "BuildTrigger.BranchFilter": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "includes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify the git-branch to be reacted to. If empty list or unspecfied, the workflow will be trigged only by changes in default-branch.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "excludes": {
+                    "type": "array",
+                    "description": "Optional. Used to specify git-branch that should not be reacted to.",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "required": [ ],
+            "title": "BranchFilter",
+            "description": "Not implemented yet. Planned use is to specify git-branches to be reacted to. If empty list, the workflow will be trigged only by changes in default-branch."
+        }
+        
+    }
+}
